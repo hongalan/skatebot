@@ -1,0 +1,439 @@
+<?xml version='1.0'?>
+
+<robot name="skatebot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="cameraSize" value="0.05"/>
+  <xacro:property name="cameraMass" value="0.1"/>
+
+  <xacro:include filename="$(find skatebot_description)/urdf/skatebot.gazebo" />
+  <xacro:include filename="$(find skatebot_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find skatebot_description)/urdf/macros.xacro" />
+
+  <!-- Deck -->
+  <link name='base_link'>
+    <pose>0 0 0 0 0 0</pose>
+
+    <inertial>
+      <mass value="3.0225"/>
+      <origin xyz="-0.010943 0 0.006" rpy=" 0 0 0"/>
+      <inertia
+          ixx="0.75" ixy="0" ixz="0"
+          iyy="0.75" iyz="0"
+          izz="0.75"
+      />
+    </inertial>
+
+    <collision>
+      <origin xyz="0 0 0" rpy=" 0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy=" 0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/base_link.STL" />
+      </geometry>
+    </visual>
+  </link>
+
+
+
+  <!-- Baseplates -->
+  <link name="baseplate_f">
+    <inertial>
+      <origin xyz="0.0026044 0 0.012434" rpy="0 0 0"/>
+      <mass value="0.18289"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"
+      />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/baseplate_f.STL" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/baseplate_f.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="baseplate_f_mount"
+    type="fixed">
+    <origin xyz="0.36648 0 0" rpy="3.1416 0 3.1416" />
+    <parent link="base_link" />
+    <child link="baseplate_f" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+
+
+  <link name="baseplate_r">
+    <inertial>
+      <origin xyz="0.0026044 0 0.012434" rpy="0 0 0"/>
+      <mass value="0.18289"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"
+      />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/baseplate_r.STL" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/baseplate_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="baseplate_r_mount"
+    type="fixed">
+    <origin xyz="-0.34726 0 0" rpy="-3.1416 0 0" />
+    <parent link="base_link" />
+    <child link="baseplate_r" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+
+
+  <!-- Hangers -->
+  <link name="hanger_f">
+    <inertial>
+      <origin xyz="0 0.0061071 0.034635" rpy="0 0 0"/>
+      <mass value="0.26955"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"
+      />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/hanger_f.STL" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/hanger_f.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="hanger_f_mount"
+    type="revolute">
+    <origin xyz="-0.02855 0 0.023956" rpy="0.87266 0 1.5708" />
+    <parent link="baseplate_f" />
+    <child link="hanger_f" />
+    <axis xyz="0 -0.17365 -0.98481" />
+    <limit
+      lower="-1"
+      upper="1"
+      effort="0"
+      velocity="0" />
+    <dynamics
+      damping="1"
+      friction="0.5" />
+    <safety_controller
+      soft_upper="0.9"
+      soft_lower="-0.9"
+      k_velocity="0" />
+  </joint>
+
+
+
+  <link name="hanger_r">
+    <inertial>
+      <origin xyz="0 0.013676 0" rpy="0 0 0"/>
+      <mass value="0.26955"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"
+      />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/hanger_r.STL" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/hanger_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="hanger_r_mount"
+    type="revolute">
+    <origin xyz="0.0028474 0 0.061374" rpy="-0.87266 0 1.5708" />
+    <parent link="baseplate_r" />
+    <child link="hanger_r" />
+    <axis xyz="0 1 0" />
+    <limit
+      lower="-1"
+      upper="1"
+      effort="0"
+      velocity="0" />
+    <dynamics
+      damping="1"
+      friction="0.5" />
+    <safety_controller
+      soft_upper="0.9"
+      soft_lower="-0.9"
+      k_velocity="0" />
+  </joint>
+
+
+  <!-- Wheels -->
+  <link name="wheel_f_right">
+    <inertial>
+      <origin xyz="0 0 -0.0254" rpy="0 0 0"/>
+      <mass value="0.18771"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"
+      />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/wheel_f_right.STL" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/wheel_f_right.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="wheel_f_right_mount"
+    type="continuous">
+    <origin xyz="-0.075547 0.0084819 0.048103" rpy="-1.5708 -0.87266 -1.5708" />
+    <parent link="hanger_f" />
+    <child link="wheel_f_right" />
+    <axis xyz="0 0 -1" />
+    <dynamics friction="0.5" />
+  </joint>
+
+
+
+  <link name="wheel_f_left">
+    <inertial>
+      <origin xyz="0 0 -0.0254" rpy="0 0 0"/>
+      <mass value="0.18771"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"
+      />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/wheel_f_left.STL" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/wheel_f_left.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="wheel_f_left_mount"
+    type="continuous">
+    <origin xyz="0.075547 0.0084819 0.048103" rpy="-1.5708 0.87266 1.5708" />
+    <parent link="hanger_f" />
+    <child link="wheel_f_left" />
+    <axis xyz="0 0 1" />
+    <dynamics friction="0.5" />
+  </joint>
+
+
+
+  <link name="wheel_r_right">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.18771"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"
+      />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/wheel_r_right.STL" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/wheel_r_right.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="wheel_r_right_mount"
+    type="continuous">
+    <origin xyz="0.10095 0 0" rpy="-1.5708 -0.87266 1.5708" />
+    <parent link="hanger_r" />
+    <child link="wheel_r_right" />
+    <axis xyz="0 0 -1" />
+    <dynamics friction="0.5" />
+  </joint>
+
+
+
+  <link name="wheel_r_left">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.18771"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"
+      />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/wheel_r_left.STL" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/wheel_r_left.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="wheel_r_left_mount"
+    type="continuous">
+    <origin xyz="-0.10095 0 0" rpy="-1.5708 0.87266 -1.5708" />
+    <parent link="hanger_r" />
+    <child link="wheel_r_left" />
+    <axis xyz="0 0 1" />
+    <dynamics friction="0.5" />
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+
+  <!-- Camera -->
+  <link name="camera">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+
+    <inertial>
+      <mass value="${cameraMass}" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <box_inertia m="${cameraMass}" x="${cameraSize}" y="${cameraSize}" z="${cameraSize}" />
+      <inertia 
+        ixx="1e-6" ixy="0" ixz="0" 
+        iyy="1e-6" iyz="0" 
+        izz="1e-6" />
+    </inertial>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz=".45 0 .1" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="camera"/>
+  </joint>
+
+
+
+
+
+  <!-- Hokuyo Laser -->
+  <link name="hokuyo">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.125"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://skatebot_description/meshes/hokuyo.dae"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <joint name="hokuyo_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz=".45 0 .05" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="hokuyo"/>
+  </joint>
+
+</robot>
+

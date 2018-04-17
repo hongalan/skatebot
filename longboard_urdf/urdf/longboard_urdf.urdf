@@ -1,0 +1,499 @@
+<robot
+  name="longboard_urdf">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.010943 1.0455E-16 0.006"
+        rpy="0 0 0" />
+      <mass
+        value="3.0225" />
+      <inertia
+        ixx="0.75"
+        ixy="0"
+        ixz="0"
+        iyy="0.75"
+        iyz="0"
+        izz="0.75" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.9098 0.44314 0.031373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="baseplate_f">
+    <inertial>
+      <origin
+        xyz="0.0026044 -2.5171E-17 0.012434"
+        rpy="0 0 0" />
+      <mass
+        value="0.18289" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/baseplate_f.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.66667 0.69804 0.76863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/baseplate_f.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="baseplate_f_mount"
+    type="fixed">
+    <origin
+      xyz="0.36648 0 0"
+      rpy="3.1416 1.2246E-16 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="baseplate_f" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="hanger_f">
+    <inertial>
+      <origin
+        xyz="1.0059E-17 0.0061071 0.034635"
+        rpy="0 0 0" />
+      <mass
+        value="0.26955" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/hanger_f.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.66667 0.69804 0.76863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/hanger_f.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="hanger_f_mount"
+    type="revolute">
+    <origin
+      xyz="-0.02855 0 0.023956"
+      rpy="0.87266 -1.9096E-16 1.5708" />
+    <parent
+      link="baseplate_f" />
+    <child
+      link="hanger_f" />
+    <axis
+      xyz="0 -0.17365 -0.98481" />
+    <limit
+      lower="-1"
+      upper="1"
+      effort="0"
+      velocity="0" />
+    <dynamics
+      damping="1"
+      friction="0.5" />
+    <safety_controller
+      soft_upper="0.9"
+      soft_lower="-0.9"
+      k_velocity="0" />
+  </joint>
+  <link
+    name="wheel_f_right">
+    <inertial>
+      <origin
+        xyz="-5.5511E-17 -2.0817E-17 -0.0254"
+        rpy="0 0 0" />
+      <mass
+        value="0.18771" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0.75" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/wheel_f_right.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 1 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/wheel_f_right.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="wheel_f_right_mount"
+    type="continuous">
+    <origin
+      xyz="-0.075547 0.0084819 0.048103"
+      rpy="-1.5708 -0.87266 -1.5708" />
+    <parent
+      link="hanger_f" />
+    <child
+      link="wheel_f_right" />
+    <axis
+      xyz="0 0 -1" />
+    <dynamics
+      friction="0.5" />
+  </joint>
+  <link
+    name="wheel_f_left">
+    <inertial>
+      <origin
+        xyz="0 0 -0.0254"
+        rpy="0 0 0" />
+      <mass
+        value="0.18771" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0.75" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/wheel_f_left.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 1 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/wheel_f_left.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="wheel_f_left_mount"
+    type="continuous">
+    <origin
+      xyz="0.075547 0.0084819 0.048103"
+      rpy="-1.5708 0.87266 1.5708" />
+    <parent
+      link="hanger_f" />
+    <child
+      link="wheel_f_left" />
+    <axis
+      xyz="0 0 1" />
+    <dynamics
+      friction="0.5" />
+  </joint>
+  <link
+    name="baseplate_r">
+    <inertial>
+      <origin
+        xyz="0.0026044 -7.6121E-19 0.012434"
+        rpy="0 0 0" />
+      <mass
+        value="0.18289" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/baseplate_r.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.66667 0.69804 0.76863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/baseplate_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="baseplate_r_mount"
+    type="fixed">
+    <origin
+      xyz="-0.34726 0 0"
+      rpy="-3.1416 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="baseplate_r" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="hanger_r">
+    <inertial>
+      <origin
+        xyz="-3.1593E-17 0.013676 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.26955" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/hanger_r.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.66667 0.69804 0.76863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/hanger_r.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="hanger_r_mount"
+    type="revolute">
+    <origin
+      xyz="0.0028474 0 0.061374"
+      rpy="-0.87266 1.3066E-16 1.5708" />
+    <parent
+      link="baseplate_r" />
+    <child
+      link="hanger_r" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1"
+      upper="1"
+      effort="0"
+      velocity="0" />
+    <dynamics
+      damping="1"
+      friction="0.5" />
+    <safety_controller
+      soft_upper="0.9"
+      soft_lower="-0.9"
+      k_velocity="0" />
+  </joint>
+  <link
+    name="wheel_r_right">
+    <inertial>
+      <origin
+        xyz="-5.5511E-17 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.18771" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0.75" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/wheel_r_right.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 1 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/wheel_r_right.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="wheel_r_right_mount"
+    type="continuous">
+    <origin
+      xyz="0.10095 0 0"
+      rpy="-1.5708 -0.87266 1.5708" />
+    <parent
+      link="hanger_r" />
+    <child
+      link="wheel_r_right" />
+    <axis
+      xyz="0 0 -1" />
+    <dynamics
+      friction="0.5" />
+  </joint>
+  <link
+    name="wheel_r_left">
+    <inertial>
+      <origin
+        xyz="5.5511E-17 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.18771" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0.75" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/wheel_r_left.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 1 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://longboard_urdf/meshes/wheel_r_left.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="wheel_r_left_mount"
+    type="continuous">
+    <origin
+      xyz="-0.10095 0 0"
+      rpy="-1.5708 0.87266 -1.5708" />
+    <parent
+      link="hanger_r" />
+    <child
+      link="wheel_r_left" />
+    <axis
+      xyz="0 0 1" />
+    <dynamics
+      friction="0.5" />
+  </joint>
+</robot>
