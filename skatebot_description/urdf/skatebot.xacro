@@ -9,7 +9,36 @@
   <xacro:include filename="$(find skatebot_description)/urdf/materials.xacro" />
   <xacro:include filename="$(find skatebot_description)/urdf/macros.xacro" />
 
+  <!-- Control and Actuation -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/skatebot</robotNamespace>
+    </plugin>
+  </gazebo>
+
+  <transmission name="wheel_r_right_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="wheel_r_right_mount"/>
+    <actuator name="wheel_r_right_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="hanger_r_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="hanger_r_mount"/>
+    <actuator name="wheel_r_right_motor">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+
   <!-- Deck -->
+  <!-- Anticipating physics error in using base_link with inertia. Will potentially rename this link to 'deck' and attach massless 'base_link' to this. -->
+
   <link name='base_link'>
     <pose>0 0 0 0 0 0</pose>
 
@@ -155,14 +184,19 @@
       effort="0"
       velocity="0" />
     <dynamics
-      damping="1"
+      damping="500"
       friction="0.5" />
     <safety_controller
-      soft_upper="0.9"
-      soft_lower="-0.9"
+      soft_upper="0.7"
+      soft_lower="-0.7"
       k_velocity="0" />
   </joint>
 
+  <gazebo reference="hanger_f_mount">
+    <implicitSpringDamper>true</implicitSpringDamper>
+    <springStiffness>1000</springStiffness>
+    <springReference>0.0</springReference>
+  </gazebo>
 
 
   <link name="hanger_r">
@@ -204,16 +238,27 @@
       effort="0"
       velocity="0" />
     <dynamics
-      damping="1"
+      damping="500"
       friction="0.5" />
     <safety_controller
-      soft_upper="0.9"
-      soft_lower="-0.9"
+      soft_upper="0.7"
+      soft_lower="-0.7"
       k_velocity="0" />
   </joint>
 
+  <gazebo reference="hanger_r_mount">
+    <implicitSpringDamper>true</implicitSpringDamper>
+    <springStiffness>1000</springStiffness>
+    <springReference>0.0</springReference>
+  </gazebo>
 
   <!-- Wheels -->
+  <!-- May want to look into adding friction to surfaces if the current behavior is inaccurate -->
+  <!-- <gazebo reference="${prefix}_${suffix}_wheel">
+      <mu1 value="200.0"/>
+      <mu2 value="100.0"/>
+    </gazebo> -->
+
   <link name="wheel_f_right">
     <inertial>
       <origin xyz="0 0 -0.0254" rpy="0 0 0"/>
@@ -325,7 +370,6 @@
     <axis xyz="0 0 -1" />
     <dynamics friction="0.5" />
   </joint>
-
 
 
   <link name="wheel_r_left">
